@@ -39,33 +39,47 @@ public class Customer {
 			double thisAmount = 0;
 			Rental each = rentals.next();
 			// determine amounts for each line
-			switch (each.getMovie().getPriceCode()) {
-			case Movie.REGULAR:
-				thisAmount += 2;
-				if (each.getDaysRented() > 2)
-					thisAmount += (each.getDaysRented() - 2) * 1.5;
-				break;
-			case Movie.NEW_RELEASE:
-				thisAmount += each.getDaysRented() * 3;
-				break;
-			case Movie.CHILDRENS:
-				thisAmount += 1.5;
-				if (each.getDaysRented() > 3)
-					thisAmount += (each.getDaysRented() - 3) * 1.5;
-				break;
-			}
-			
+			thisAmount = calculateAmount(thisAmount, each);	
 			// add frequent renter points
 			frequentRenterPoints++;
 			// add bonus for a two day new release rental
 			if ((each.getMovie().getPriceCode() == Movie.NEW_RELEASE)
 					&& each.getDaysRented() > 1)
 				frequentRenterPoints++;
-			// show figures for this rental
-			result += "\t" + each.getMovie().getTitle() + "\t"
-					+ String.valueOf(thisAmount) + "\n";
+			result = showRentalFigures(result, thisAmount, each);
 			totalAmount += thisAmount;
 		}
+		result = addFooter(totalAmount, frequentRenterPoints, result);
+		return result;
+	}
+
+	private double calculateAmount(double thisAmount, Rental thisRental) {
+		switch (thisRental.getMovie().getPriceCode()) {
+		case Movie.REGULAR:
+			thisAmount += 2;
+			if (thisRental.getDaysRented() > 2)
+				thisAmount += (thisRental.getDaysRented() - 2) * 1.5;
+			break;
+		case Movie.NEW_RELEASE:
+			thisAmount += thisRental.getDaysRented() * 3;
+			break;
+		case Movie.CHILDRENS:
+			thisAmount += 1.5;
+			if (thisRental.getDaysRented() > 3)
+				thisAmount += (thisRental.getDaysRented() - 3) * 1.5;
+			break;
+		}
+		return thisAmount;
+	}
+
+	private String showRentalFigures(String result, double thisAmount, Rental thisRental) {
+		// show figures for this rental
+		result += "\t" + thisRental.getMovie().getTitle() + "\t"
+				+ String.valueOf(thisAmount) + "\n";
+		return result;
+	}
+
+	private String addFooter(double totalAmount, int frequentRenterPoints, String result) {
 		// add footer lines
 		result += "Amount owed is " + String.valueOf(totalAmount) + "\n";
 		result += "You earned " + String.valueOf(frequentRenterPoints)
