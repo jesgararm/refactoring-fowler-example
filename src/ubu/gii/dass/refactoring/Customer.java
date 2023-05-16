@@ -36,10 +36,8 @@ public class Customer {
 		Iterator<Rental> rentals = _rentals.iterator();
 		String result = "Rental Record for " + getName() + "\n";
 		while (rentals.hasNext()) {
-			double thisAmount = 0;
 			Rental each = rentals.next();
-			// determine amounts for each line
-			thisAmount = calculateAmount(thisAmount, each);	
+			double thisAmount = calculateAmount(each);
 			// add frequent renter points
 			frequentRenterPoints++;
 			// add bonus for a two day new release rental
@@ -53,20 +51,21 @@ public class Customer {
 		return result;
 	}
 
-	private double calculateAmount(double thisAmount, Rental thisRental) {
-		switch (thisRental.getMovie().getPriceCode()) {
+	private double calculateAmount(Rental rent) {
+		double thisAmount = 0;
+		switch (rent.getMovie().getPriceCode()) {
 		case Movie.REGULAR:
 			thisAmount += 2;
-			if (thisRental.getDaysRented() > 2)
-				thisAmount += (thisRental.getDaysRented() - 2) * 1.5;
+			if (rent.getDaysRented() > 2)
+				thisAmount += (rent.getDaysRented() - 2) * 1.5;
 			break;
 		case Movie.NEW_RELEASE:
-			thisAmount += thisRental.getDaysRented() * 3;
+			thisAmount += rent.getDaysRented() * 3;
 			break;
 		case Movie.CHILDRENS:
 			thisAmount += 1.5;
-			if (thisRental.getDaysRented() > 3)
-				thisAmount += (thisRental.getDaysRented() - 3) * 1.5;
+			if (rent.getDaysRented() > 3)
+				thisAmount += (rent.getDaysRented() - 3) * 1.5;
 			break;
 		}
 		return thisAmount;
