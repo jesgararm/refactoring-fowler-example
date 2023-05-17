@@ -12,4 +12,13 @@ public class NewReleasePrice extends Price {
 		return daysRented * 3;
 	}
 
+	int getFrequentRenterPoints(Movie movie, int daysRented) {
+		return getFrequentRenterPoints(daysRented);
+	}
+
+	int getFrequentRenterPoints(int daysRented) {
+		if (daysRented > 1) return 2; 
+		else return 1;
+	}
+
 }

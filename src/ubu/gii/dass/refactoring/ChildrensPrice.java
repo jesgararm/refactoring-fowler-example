@@ -17,4 +17,12 @@ public class ChildrensPrice extends Price {
 		return thisAmount;
 	}
 
+	int getFrequentRenterPoints(Movie movie, int daysRented) {
+		return getFrequentRenterPoints(daysRented);
+	}
+
+	int getFrequentRenterPoints(int daysRented) {
+		return 1;
+	}
+
 }
