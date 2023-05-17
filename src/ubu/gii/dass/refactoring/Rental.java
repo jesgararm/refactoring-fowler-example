@@ -28,7 +28,7 @@ public class Rental {
 	}
 
 	double calculateAmount() {
-		return _movie.calculateAmount(this);
+		return _movie.calculateAmount(getDaysRented());
 	}
 
 	int getFrequentRenterPoints() {
