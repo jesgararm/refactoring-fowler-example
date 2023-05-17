@@ -36,7 +36,7 @@ public class Movie {
 		return _title;
 	}
 
-	double calculateAmount(int daysRented) {
+	double getCharge(int daysRented) {
 		double thisAmount = 0;
 		switch (getPriceCode()) {
 		case Movie.REGULAR:
