@@ -46,6 +46,22 @@ public class Customer {
 		return result;
 	}
 
+	private String statementHTML() {
+		double totalAmount = 0;
+		int frequentRenterPoints = 0;
+		Iterator<Rental> rentals = _rentals.iterator();
+		String result = "Rental Record for " + getName() + "\n";
+		while (rentals.hasNext()) {
+			Rental each = rentals.next();
+			double thisAmount = each.calculateAmount();
+			frequentRenterPoints += each.getFrequentRenterPoints();
+			result = showRentalFigures(result, thisAmount, each);
+			totalAmount += thisAmount;
+		}
+		result = addFooter(totalAmount, frequentRenterPoints, result);
+		return result;
+	}
+
 	private String showRentalFigures(String result, double thisAmount, Rental thisRental) {
 		// show figures for this rental
 		result += "\t" + thisRental.getMovie().getTitle() + "\t"
