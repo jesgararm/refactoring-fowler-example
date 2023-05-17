@@ -50,30 +50,32 @@ public class Customer {
 		double totalAmount = 0;
 		int frequentRenterPoints = 0;
 		Iterator<Rental> rentals = _rentals.iterator();
-		String result = "Rental Record for " + getName() + "\n";
+		String result = "<H1>Rental Record for<EM> " + getName() + "</EM></H1><P>\n";
 		while (rentals.hasNext()) {
 			Rental each = rentals.next();
 			double thisAmount = each.calculateAmount();
 			frequentRenterPoints += each.getFrequentRenterPoints();
-			result = showRentalFigures(result, thisAmount, each);
+			// show figures for this rental
+			result += each.getMovie().getTitle() + ": " + String.valueOf(thisAmount) + "<BR>\n";
 			totalAmount += thisAmount;
 		}
-		result = addFooter(totalAmount, frequentRenterPoints, result);
+		// add footer lines
+		result += "<P>You owe <EM>" + String.valueOf(totalAmount) + "</EM><P>\n";
+		result += "On this rental you earned <EM>" + String.valueOf(frequentRenterPoints)
+				+ "</EM> frequent renter points<P>";
 		return result;
 	}
 
 	private String showRentalFigures(String result, double thisAmount, Rental thisRental) {
 		// show figures for this rental
-		result += "\t" + thisRental.getMovie().getTitle() + "\t"
-				+ String.valueOf(thisAmount) + "\n";
+		result += "\t" + thisRental.getMovie().getTitle() + "\t" + String.valueOf(thisAmount) + "\n";
 		return result;
 	}
 
 	private String addFooter(double totalAmount, int frequentRenterPoints, String result) {
 		// add footer lines
 		result += "Amount owed is " + String.valueOf(totalAmount) + "\n";
-		result += "You earned " + String.valueOf(frequentRenterPoints)
-				+ " frequent renter points";
+		result += "You earned " + String.valueOf(frequentRenterPoints) + " frequent renter points";
 		return result;
 	}
 }
